@@ -1,9 +1,12 @@
 $(document).ready(function() {
     // ID da planilha do Google Sheets
     var spreadsheetID = '2PACX-1vT8LgysYF-xRZwk2Udo38o72T4RAgSKWzpD2p1t0q-3mufv44uLDFTUZ9jVZNiCktmE89TtwP2UoaB9';
+    
+    // ID da aba específica da planilha (gid)
+    var sheetID = '307821144';
 
     // URL para buscar os dados da planilha em formato JSON
-    var url = 'https://spreadsheets.google.com/feeds/list/' + spreadsheetID + '/od6/public/values?alt=json';
+    var url = 'https://spreadsheets.google.com/feeds/list/' + spreadsheetID + '/' + sheetID + '/public/values?alt=json';
 
     $.getJSON(url, function(data) {
         var entry = data.feed.entry;
