@@ -1,6 +1,9 @@
 $(document).ready(function() {
-    var spreadsheetID = '113tGC_wmr-qcU1PPTmAO7EvCGQcK3madpJvl6kBQetM';
-    var url = `https://spreadsheets.google.com/feeds/list/${2PACX-1vT8LgysYF-xRZwk2Udo38o72T4RAgSKWzpD2p1t0q-3mufv44uLDFTUZ9jVZNiCktmE89TtwP2UoaB9}/1/public/values?alt=json`;
+    // ID da planilha do Google Sheets
+    var spreadsheetID = '2PACX-1vT8LgysYF-xRZwk2Udo38o72T4RAgSKWzpD2p1t0q-3mufv44uLDFTUZ9jVZNiCktmE89TtwP2UoaB9';
+
+    // URL para buscar os dados da planilha em formato JSON
+    var url = 'https://spreadsheets.google.com/feeds/list/' + spreadsheetID + '/od6/public/values?alt=json';
 
     $.getJSON(url, function(data) {
         var entry = data.feed.entry;
