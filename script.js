@@ -1,16 +1,25 @@
 $(document).ready(function() {
-    // ID da planilha do Google Sheets
-    var spreadsheetID = '2PACX-1vT8LgysYF-xRZwk2Udo38o72T4RAgSKWzpD2p1t0q-3mufv44uLDFTUZ9jVZNiCktmE89TtwP2UoaB9';
-    
-    // ID da aba específica da planilha (gid)
-    var sheetID = '307821144';
-
     // URL para buscar os dados da planilha em formato JSON
-    var url = 'https://spreadsheets.google.com/feeds/list/' + spreadsheetID + '/' + sheetID + '/public/values?alt=json';
+    var url = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vT8LgysYF-xRZwk2Udo38o72T4RAgSKWzpD2p1t0q-3mufv44uLDFTUZ9jVZNiCktmE89TtwP2UoaB9/pubhtml?gid=307821144&single=true';
 
     $.getJSON(url, function(data) {
-        var entry = data.feed.entry;
-        var headers = Object.keys(entry[0]).filter(key => key.startsWith('gsx$')).map(key => key.substring(4));
+        var headers = [];
+        var rows = [];
+
+        // Obtendo os cabeçalhos da planilha
+        data.query.tables.table.rows[0].c.forEach(function(cell) {
+            headers.push(cell.v);
+        });
+
+        // Obtendo os dados da planilha
+        for (var i = 1; i < data.query.tables.table.rows.length; i++) {
+            var row = data.query.tables.table.rows[i];
+            var rowData = [];
+            row.c.forEach(function(cell) {
+                rowData.push(cell.v);
+            });
+            rows.push(rowData);
+        });
 
         // Preenchendo os cabeçalhos da tabela
         var headerRow = '<tr>';
@@ -21,10 +30,10 @@ $(document).ready(function() {
         $('#table-head').append(headerRow);
 
         // Preenchendo os dados da tabela
-        entry.forEach(function(row) {
+        rows.forEach(function(rowData) {
             var dataRow = '<tr>';
-            headers.forEach(function(header) {
-                dataRow += '<td>' + row['gsx$' + header]['$t'] + '</td>';
+            rowData.forEach(function(cellData) {
+                dataRow += '<td>' + cellData + '</td>';
             });
             dataRow += '</tr>';
             $('#table-body').append(dataRow);
