@@ -29,5 +29,7 @@ $(document).ready(function() {
 
         // Inicialize o DataTable
         $('#spreadsheet').DataTable();
+    }).fail(function(jqXHR, textStatus, errorThrown) {
+        console.error('Erro ao carregar os dados da planilha:', textStatus, errorThrown);
     });
 });
